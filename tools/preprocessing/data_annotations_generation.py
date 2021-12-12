@@ -78,7 +78,8 @@ if __name__ == '__main__':
         os.makedirs(DIRECTORY_VISUALIZATION)
     if not os.path.exists(DIRECTORY_ANNOTATIONS):
         os.makedirs(DIRECTORY_ANNOTATIONS)
+    generate_coco_annotations(DIRECTORY_IMAGE, DIRECTORY_MASK, DIRECTORY_ANNOTATIONS, FILE_NAME)
     file = open(DIRECTORY_ANNOTATIONS + FILE_NAME, )
     coco = json.load(file)
     # show_images_with_bbox(coco)
-    store_images_with_bbox(coco, DIRECTORY_VISUALIZATION)
+    # store_images_with_bbox(coco, DIRECTORY_VISUALIZATION)
