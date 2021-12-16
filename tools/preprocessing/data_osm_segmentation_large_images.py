@@ -54,7 +54,9 @@ def get_segmentation_by_regions(image_name):
                                                        specific_projection=str_proj_EPSG_25832)
                 for p in poligons:
                     result = list(map(tuple, np.array(p).astype(int)))
-                    img_draw.polygon(result, outline='#ee7621')
+                    img_draw.polygon(result, outline='#00ff00')
+                    bbox = p[:, 0].min(), p[:, 0].max(), p[:, 1].min(), p[:, 1].max()
+                    img_draw.rectangle([(bbox[0], bbox[2]), (bbox[1], bbox[3])], outline='#00ff00', width=2)
                     image_to_show.save(input_image)
                 index += 1
 
@@ -80,4 +82,5 @@ if __name__ == '__main__':
     for subdir, dirs, files in os.walk(DIRECTORY_INPUT):
         for file in files:
             if file.lower().endswith('.tif'):
-                get_segmentation_one_chunk(file)
+                # get_segmentation_one_chunk(file)
+                get_segmentation_by_regions(file)
