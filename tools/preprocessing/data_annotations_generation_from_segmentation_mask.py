@@ -121,7 +121,7 @@ def generate_annotation_for_single_image(mask_folder, annotations,
     sub_masks = create_sub_masks(mask_image)
     for color, sub_mask in sub_masks.items():
         # we care only for buildings, but if we're not, this line can be uncommented and used for all masks
-        if color != '(238, 118, 33)':
+        if color != building_id:
             continue
         category_id = 1
         annotation_id_index, category_annotations = create_sub_mask_annotation(sub_mask,
@@ -134,7 +134,7 @@ def generate_annotation_for_single_image(mask_folder, annotations,
 
 
 # todo
-def generate_coco_annotations(images_folder, mask_folder, annotations_folder):
+def generate_coco_annotations(images_folder, mask_folder, annotations_folder, file_name):
     annotations = []
     images = []
     annotation_id_index = 0
@@ -170,7 +170,6 @@ def generate_coco_annotations(images_folder, mask_folder, annotations_folder):
         'annotations': annotations,
         'categories': categories
     }
-
-    with open(annotations_folder + 'coco.json', 'w') as outfile:
+    with open(annotations_folder + file_name, 'w') as outfile:
         json.dump(coco, outfile)
     return coco

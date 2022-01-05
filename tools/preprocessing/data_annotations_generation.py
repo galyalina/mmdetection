@@ -5,19 +5,19 @@ from matplotlib.patches import Rectangle
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 
+# from data_annotations_generation_from_buildings_mask import generate_coco_annotations
 from data_annotations_generation_from_buildings_mask import generate_coco_annotations
-
 # DIRECTORY_ANNOTATIONS = "../../latest/annotations/"
 # DIRECTORY_IMAGE = "../../latest/train/"
 # DIRECTORY_MASK = "../../latest/mask/"
 # DIRECTORY_VISUALIZATION = "../../latest/visualization/"
 # FILE_NAME = "instances_train.json"
 
-PATH = "../../data/zeven/"
-DIRECTORY_ANNOTATIONS = PATH + "annotations/"
+PATH = "../../data/paper/"
+DIRECTORY_ANNOTATIONS = PATH + "annotations_instances/"
 DIRECTORY_IMAGE = PATH + "train/"
-DIRECTORY_MASK = PATH + "mask/"
-DIRECTORY_VISUALIZATION = PATH + "visualization/"
+DIRECTORY_MASK = PATH + "mask_instances/"
+DIRECTORY_VISUALIZATION = PATH + "visualization_instances/"
 FILE_NAME = "instances_val.json"
 
 # DIRECTORY_ANNOTATIONS = "../../data/annotations/"
@@ -25,7 +25,7 @@ FILE_NAME = "instances_val.json"
 # DIRECTORY_MASK = "../../data/mask/"
 # DIRECTORY_VISUALIZATION = "../../data/visualization/"
 
-building_color = '#7CFC00'
+building_color = '#EB1E4E'
 
 
 def show_images_with_bbox(coco):
@@ -82,4 +82,4 @@ if __name__ == '__main__':
     file = open(DIRECTORY_ANNOTATIONS + FILE_NAME, )
     coco = json.load(file)
     # show_images_with_bbox(coco)
-    # store_images_with_bbox(coco, DIRECTORY_VISUALIZATION)
+    store_images_with_bbox(coco, DIRECTORY_VISUALIZATION)
