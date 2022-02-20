@@ -91,7 +91,7 @@ def create_sub_masks(mask_image):
         for y in range(height):
             # Get the RGB values of the pixel
             # This line required when already binary mask is proccessed, we use it in OSM labling
-            # mask_image = mask_image.convert("RGB")
+            mask_image = mask_image.convert("RGB")
             pixel = mask_image.getpixel((x, y))[:3]
             # If the pixel is not black...
             # if pixel != (0, 0, 0):
@@ -128,12 +128,16 @@ def generate_annotation_for_single_image(mask_folder, annotations,
     sub_masks = create_sub_masks(mask_image)
     index = 0
 
+    if not os.path.exists(mask_folder + 'single_mask'):
+        os.makedirs(mask_folder + 'single_mask')
+
     for color, sub_mask in sub_masks.items():
         # we care only for buildings, but if we're not, this line can be uncommented and used for all masks
         if color == '(255, 255, 255)':
             continue
         category_id = 1
         index += 1
+        sub_mask.save(mask_folder + 'single_mask/' + str(annotation_id_index) + ".png")
         annotation_id_index, category_annotations = create_sub_mask_annotation(sub_mask,
                                                                                image_id_index,
                                                                                category_id,

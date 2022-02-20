@@ -6,8 +6,8 @@ import rasterio
 from PIL import Image, ImageDraw
 from rasterio.windows import Window
 
-PATH = "../../data/zeven"
-DIRECTORY_CROPPED_IMAGE = PATH + "/train/"
+PATH = "../../data/brauschweig"
+DIRECTORY_CROPPED_IMAGE = PATH + "/test/"
 DIRECTORY_MASK_IMAGE = PATH + "/mask/"
 
 

@@ -4,8 +4,7 @@ import os
 from matplotlib.patches import Rectangle
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
-
-# from data_annotations_generation_from_buildings_mask import generate_coco_annotations
+# from data_annotations_generation_from_segmentation_mask import generate_coco_annotations
 from data_annotations_generation_from_buildings_mask import generate_coco_annotations
 # DIRECTORY_ANNOTATIONS = "../../latest/annotations/"
 # DIRECTORY_IMAGE = "../../latest/train/"
@@ -13,7 +12,7 @@ from data_annotations_generation_from_buildings_mask import generate_coco_annota
 # DIRECTORY_VISUALIZATION = "../../latest/visualization/"
 # FILE_NAME = "instances_train.json"
 
-PATH = "../../data/paper/"
+PATH = "../../data/for_latex/"
 DIRECTORY_ANNOTATIONS = PATH + "annotations_instances/"
 DIRECTORY_IMAGE = PATH + "train/"
 DIRECTORY_MASK = PATH + "mask_instances/"
@@ -42,7 +41,7 @@ def show_images_with_bbox(coco):
         x, y, w, h = annotation['bbox']
         ax_from_image = ax_dict[image_id]
         ax_from_image.add_patch(Rectangle((x, y), w, h,
-                                          linewidth=1,
+                                          linewidth=2,
                                           edgecolor=building_color,
                                           facecolor='none'))
     plt.show()
@@ -68,7 +67,7 @@ def store_images_with_bbox(coco, folder):
         img_draw = ImageDraw.Draw(image_to_show)
         for annotation in image_annotations[image]:
             [x, y, w, h] = annotation
-            img_draw.rectangle([(x, y), (x + w, y + h)], outline=building_color, width=3)
+            img_draw.rectangle([(x, y), (x + w, y + h)], outline=building_color, width=5)
         image_to_show.save(folder + image_name[image])
         # image_to_show.show()
 

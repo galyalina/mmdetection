@@ -1,13 +1,14 @@
 import rasterio
 import os
-
+import cv2
 from rasterio.windows import Window
 
-PATH = "../../data/zeven"
-DIRECTORY_CROPPED_IMAGE = PATH + "/train/"
-DIRECTORY_IMAGE = PATH + "/large/"
+PATH = "../../data/brauschweig"
+DIRECTORY_CROPPED_IMAGE = PATH + "/test/"
+DIRECTORY_CROPPED_IMAGE_PNG = PATH + "/test_png/"
+DIRECTORY_IMAGE = PATH + "/input/"
 IMAGE_SIZE = 460
-IMAGE_OVERLAP_PERCENTAGE = 0.5
+IMAGE_OVERLAP_PERCENTAGE = 0
 
 
 def find_file(name, path):
@@ -48,7 +49,7 @@ def start_points(size, split_size, overlap=0.0):
     return points
 
 
-def crop_images(original, str_prefix):
+def crop_images_tiff(original, str_prefix):
     with rasterio.open(original) as src:
         height = src.height
         width = src.width
@@ -80,10 +81,15 @@ def main():
             print('File number', file.split('.')[0])
             # Load our input image here
             print('File number', DIRECTORY_IMAGE + file)
-            number_of_cropped_images = crop_images(DIRECTORY_IMAGE + file, file.split('.')[0])
+            number_of_cropped_images_tiff = crop_images_tiff(DIRECTORY_IMAGE + file, file.split('.')[0])
             # TODO delete, used for test only
-            print(f'\n{number_of_cropped_images} images are generated for {file}\n')
+            print(f'\n{number_of_cropped_images_tiff} tiff images are generated for {file}\n')
     # Calculate number of generated images with masks
+    for subdir, dirs, files in os.walk(DIRECTORY_CROPPED_IMAGE):
+        for file in files:
+            if file.lower().endswith('.tif'):
+                image = cv2.imread(DIRECTORY_CROPPED_IMAGE + file, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
+                cv2.imwrite(DIRECTORY_CROPPED_IMAGE_PNG + '' + file.split('.')[0] + '.png', image)
 
 
 if __name__ == '__main__':
