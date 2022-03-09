@@ -14,4 +14,4 @@ log_level = 'INFO'
 load_from = None
 resume_from = None
 # resume_from = 'work_dirs/reppoints_moment_r101_fpn_gn-neck+head_2x_toulouse/epoch_23.pth'
-workflow = [('train', 1), ('val', 1)]
+workflow = [('train', 1)]
