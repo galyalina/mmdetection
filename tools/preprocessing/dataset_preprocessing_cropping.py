@@ -6,11 +6,11 @@ import os
 # DIRECTORY_CROPPED_MASK = "../../data/mask/"
 # DIRECTORY_IMAGE = "../../data/train_large/"
 # DIRECTORY_MASK = "../../data/mask_large/"
-PATH = "../../data/paper"
-DIRECTORY_CROPPED_IMAGE = PATH + "/train/"
-DIRECTORY_CROPPED_MASK = PATH + "/mask_segmentation/"
-DIRECTORY_IMAGE = PATH + "/image_large/"
-DIRECTORY_MASK = PATH + "/mask_segmentation_large/"
+PATH = "../../data/toulouse/model_data/test"
+DIRECTORY_CROPPED_IMAGE = PATH + "/images/"
+DIRECTORY_CROPPED_MASK = PATH + "/masks/"
+DIRECTORY_IMAGE = PATH + "/images_960/"
+DIRECTORY_MASK = PATH + "/masks_960/"
 IMAGE_SIZE = 460
 IMAGE_OVERLAP_PERCENTAGE = 0.5
 

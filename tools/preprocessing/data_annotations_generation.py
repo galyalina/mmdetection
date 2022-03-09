@@ -4,20 +4,21 @@ import os
 from matplotlib.patches import Rectangle
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
-# from data_annotations_generation_from_segmentation_mask import generate_coco_annotations
+from data_annotations_generation_from_segmentation_mask import generate_coco_annotations
 from data_annotations_generation_from_buildings_mask import generate_coco_annotations
+
 # DIRECTORY_ANNOTATIONS = "../../latest/annotations/"
 # DIRECTORY_IMAGE = "../../latest/train/"
 # DIRECTORY_MASK = "../../latest/mask/"
 # DIRECTORY_VISUALIZATION = "../../latest/visualization/"
 # FILE_NAME = "instances_train.json"
 
-PATH = "../../data/for_latex/"
-DIRECTORY_ANNOTATIONS = PATH + "annotations_instances/"
-DIRECTORY_IMAGE = PATH + "train/"
-DIRECTORY_MASK = PATH + "mask_instances/"
-DIRECTORY_VISUALIZATION = PATH + "visualization_instances/"
-FILE_NAME = "instances_val.json"
+PATH = "../../data/toulouse/model_data/train"
+DIRECTORY_ANNOTATIONS = PATH + "/annotations/"
+DIRECTORY_IMAGE = PATH + "/images/"
+DIRECTORY_MASK = PATH + "/masks/"
+DIRECTORY_VISUALIZATION = PATH + "/visualization/"
+FILE_NAME = "annotations_test.json"
 
 # DIRECTORY_ANNOTATIONS = "../../data/annotations/"
 # DIRECTORY_IMAGE = "../../data/train/"

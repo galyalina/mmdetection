@@ -94,25 +94,25 @@ def create_sub_masks(mask_image):
             mask_image = mask_image.convert("RGB")
             pixel = mask_image.getpixel((x, y))[:3]
             # If the pixel is not black...
-            # if pixel != (0, 0, 0):
-            # in our specific case this check is done because we have differnet colors for different types of buildings, but they all mean building and we'd kike to combine to same mask
-            if pixel != (255, 255, 255):
-                pixel_str = str((1, 1, 1))
-            else:
+            if pixel != (0, 0,
+                         0):  # in our specific case this check is done because we have differnet colors for different types of buildings, but they all mean building and we'd kike to combine to same mask
+                # if pixel != (255, 255, 255): # in toulouse buildings background is white otherwise black
+                #     pixel_str = str((1, 1, 1))
+                # else:
+                #     pixel_str = str(pixel)
+                # comment if once again test with joining colors needed
                 pixel_str = str(pixel)
-            # comment if once again test with joining colors needed
-            pixel_str = str(pixel)
-            # Check to see if we've created a sub-mask...
-            sub_mask = sub_masks.get(pixel_str)
-            if sub_mask is None:
-                # Create a sub-mask (one bit per pixel) and add to the dictionary
-                # Note: we add 1 pixel of padding in each direction
-                # because the contours module doesn't handle cases
-                # where pixels bleed to the edge of the image
-                sub_masks[pixel_str] = Image.new('1', (width, height))
+                # Check to see if we've created a sub-mask...
+                sub_mask = sub_masks.get(pixel_str)
+                if sub_mask is None:
+                    # Create a sub-mask (one bit per pixel) and add to the dictionary
+                    # Note: we add 1 pixel of padding in each direction
+                    # because the contours module doesn't handle cases
+                    # where pixels bleed to the edge of the image
+                    sub_masks[pixel_str] = Image.new('1', (width, height))
 
-            # Set the pixel value to 1 (default is 0), accounting for padding
-            sub_masks[pixel_str].putpixel((x, y), 1)
+                # Set the pixel value to 1 (default is 0), accounting for padding
+                sub_masks[pixel_str].putpixel((x, y), 1)
     return sub_masks
 
 
@@ -132,9 +132,12 @@ def generate_annotation_for_single_image(mask_folder, annotations,
         os.makedirs(mask_folder + 'single_mask')
 
     for color, sub_mask in sub_masks.items():
-        # we care only for buildings, but if we're not, this line can be uncommented and used for all masks
+        # For Toulouse buildings mask we care only for buildings, but if we're not, this line can be uncommented and used for all masks
         if color == '(255, 255, 255)':
             continue
+        # For already binary maps like after OSM mask
+        # if color == '(0, 0, 0)':
+        #     continue
         category_id = 1
         index += 1
         sub_mask.save(mask_folder + 'single_mask/' + str(annotation_id_index) + ".png")

@@ -1,5 +1,5 @@
 _base_ = [
-    './toulouse_detection.py',
+    './toulouse_detection_augmented.py',
     '../_base_/schedules/schedule_1x.py', './default_runtime.py'
 ]
 model = dict(
