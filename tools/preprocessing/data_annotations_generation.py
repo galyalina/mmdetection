@@ -13,7 +13,7 @@ from data_annotations_generation_from_buildings_mask import generate_coco_annota
 # DIRECTORY_VISUALIZATION = "../../latest/visualization/"
 # FILE_NAME = "instances_train.json"
 
-PATH = "../../data/toulouse/model_data/train"
+PATH = "../../data/toulouse/model_data/test"
 DIRECTORY_ANNOTATIONS = PATH + "/annotations/"
 DIRECTORY_IMAGE = PATH + "/images/"
 DIRECTORY_MASK = PATH + "/masks/"

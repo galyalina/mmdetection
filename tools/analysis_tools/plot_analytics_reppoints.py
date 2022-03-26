@@ -42,8 +42,9 @@ def print_loss(log_dicts_train, parameter):
 
 
 def plot_loss_cls():
-    faster_rcnn_train = ["/Users/iotta/Master/Code/mmdetection/logs/fasterrcnn/faster_rcnn_train_24.json"]
-    repppoints_train = ["/Users/iotta/Master/Code/mmdetection/logs/repppoints/repppoints_train_24.json"]
+    faster_rcnn_train = [
+        "/Users/iotta/Master/Code/mmdetection/logs/reppoints_augmented/repppoints_train_1350_iter.json"]
+    repppoints_train = ["/Users/iotta/Master/Code/mmdetection/logs/reppoints/repppoints_train_300_iter.json"]
     # json_logs_train = ["/Users/iotta/Master/Code/mmdetection/logs/filtered/faster_rcnn_train_112.json"]
     # json_logs_test = ["/Users/iotta/Master/Code/mmdetection/logs/filtered/faster_rcnn_test_112.json"]
     log_dicts_train = load_json_logs(faster_rcnn_train)
@@ -55,14 +56,15 @@ def plot_loss_cls():
     plt.plot(epochs_fasterrcnn, train_loss_fasterrcnn, '#EB1E4E', '-')
     plt.plot(epochs_repppoints, train_loss_repppoints, '#118AB2', '-')
     # plt.plot(epochs, test_loss, 'b-')
-    plt.legend(['FasterRCNN', 'RepPoints'])  # , 'Test Loss'])
+    plt.legend(['RepPoints with augmented data', 'RepPoints'])  # , 'Test Loss'])
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.ylim(top=1)  # ymax is your value
     plt.ylim(bottom=0)  # ymin is your value
     plt.title('Loss classification over ' + str(len(epochs_fasterrcnn)) + ' epochs')
     plt.savefig(
-        "/Users/iotta/Master/Code/mmdetection/logs/plots/loss_cls_" + str(len(epochs_fasterrcnn)) + "_epochs.jpg")
+        "/Users/iotta/Master/Code/mmdetection/logs/plots/augmented/loss_cls_" + str(
+            len(epochs_fasterrcnn)) + "_epochs.jpg")
     plt.show()
 
 
@@ -94,33 +96,30 @@ def plot_loss(param):
     plt.show()
 
 
-def plot_mean_avarage(param):
-    # faster_rcnn_train = ["/Users/iotta/Master/Code/mmdetection/logs/fasterrcnn/faster_rcnn_test.json"]
-    # repppoints_train = ["/Users/iotta/Master/Code/mmdetection/logs/repppoints/repppoints_test.json"]
-    faster_rcnn_train = ["/Users/iotta/Master/Code/mmdetection/logs/fasterrcnn/fasterrcnn_val.json"]
-    repppoints_train = ["/Users/iotta/Master/Code/mmdetection/logs/repppoints/reppoints_val.json"]
-    log_dicts_train = load_json_logs(faster_rcnn_train)
-    log_dicts_test = load_json_logs(repppoints_train)
+def plot_mean_avarage(param, log1, log2, name1, name2, plot_path):
+    faster_rcnn_train = log1
+    repppoints_train = log2
+    log_dicts1 = load_json_logs([faster_rcnn_train])
+    log_dicts2 = load_json_logs([repppoints_train])
 
-    epochs_fasterrcnn, train_loss_fasterrcnn = print_loss(log_dicts_train, param)
-    epochs_repppoints, train_loss_repppoints = print_loss(log_dicts_test, param)
+    epochs1, train_data1 = print_loss(log_dicts1, param)
+    epochs2, train_data2 = print_loss(log_dicts2, param)
 
     fig, ax1 = plt.subplots()
     color = '#EB1E4E'
     ax1.set_xlabel('num of epochs')
     ax1.set_ylabel(param)
-    d1, = ax1.plot(epochs_fasterrcnn, train_loss_fasterrcnn, color=color, label="FasterRCNN")
+    d1, = ax1.plot(epochs1, train_data1, color=color, label=name1)
     # plt.legend(['FasterRCNN', 'RepPoints'])
     color = '#118AB2'
-    d2, = ax1.plot(epochs_repppoints, train_loss_repppoints, color=color, label="RepPoints")
+    d2, = ax1.plot(epochs2, train_data2, color=color, label=name2)
     plt.legend(handles=[d1, d2])
     # fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    plt.title(param + ' ,' + str(len(epochs_fasterrcnn)) + ' epochs')
+    plt.title(param + ' ,' + str(len(epochs1)) + ' epochs')
     plt.axis([1, 50, 0, 1])
     plt.xlim(1, 50)
-    plt.ylim(0, 0.6)
-    plt.savefig(
-        "/Users/iotta/Master/Code/mmdetection/logs/plots/" + param + "_" + str(len(epochs_fasterrcnn)) + "_epochs.jpg")
+    plt.ylim(0, 0.8)
+    plt.savefig(plot_path + param + "_" + str(len(epochs1)) + "_epochs.jpg")
     plt.show()
 
 
@@ -188,12 +187,66 @@ def plot_reppoints_map():
             len(epochs)) + "_epochs.jpg")
     plt.show()
 
+
+def plot_reppoints_map(log_file, destination_graph_path, name):
+    repppoints_train = [log_file]
+    log_dicts_test = load_json_logs(repppoints_train)
+
+    epochs, loss_m = print_loss(log_dicts_test, "bbox_mAP")
+    epochs, loss_m50 = print_loss(log_dicts_test, "bbox_mAP_50")
+    epochs, loss_m75 = print_loss(log_dicts_test, "bbox_mAP_75")
+    epochs, loss = print_loss(log_dicts_test, "bbox_mAP_s")
+    epochs, loss_cls = print_loss(log_dicts_test, "bbox_mAP_m")
+    epochs, loss_pts_init = print_loss(log_dicts_test, "bbox_mAP_l")
+
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel('num of epochs')
+    # ax1.set_ylabel(param)
+    color4 = '#FFD166'
+    d4, = ax1.plot(epochs, loss_m, color=color4, label="bbox_mAP")
+    # plt.legend(['FasterRCNN', 'RepPoints'])
+    color5 = '#073B4C'
+    d5, = ax1.plot(epochs, loss_m50, color=color5, label="bbox_mAP_50")
+    color6 = '#460615'
+    d6, = ax1.plot(epochs, loss_m75, color=color6, label="bbox_mAP_75")
+    color1 = '#EB1E4E'
+    d1, = ax1.plot(epochs, loss, color=color1, label="bbox_mAP_s")
+    # plt.legend(['FasterRCNN', 'RepPoints'])
+    color2 = '#118AB2'
+    d2, = ax1.plot(epochs, loss_cls, color=color2, label="bbox_mAP_m")
+    color3 = '#049F76'
+    d3, = ax1.plot(epochs, loss_pts_init, color=color3, label="bbox_mAP_l")
+
+    plt.legend(handles=[d4, d5, d6, d1, d2, d3])
+    # fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    plt.title('RepPoints mAP functions')
+    # plt.axis([1, 50, 0, 1])
+    # plt.xlim(1, 50)
+    # plt.ylim(0, 0.6)
+    plt.savefig(destination_graph_path + name + "_" + str(len(epochs)) + "_epochs.jpg")
+    plt.show()
+
+
 def main():
     # plot_loss_cls()
-    # plot_mean_avarage("bbox_mAP_l")
+    plot_mean_avarage("bbox_mAP_l")
     # plot_loss("loss_cls")
     # plot_reppoints_loss()
-    plot_reppoints_map()
+    # plot_reppoints_map()
+
+
+def plot_single_log_graphs():
+    # plot_loss_cls()
+    # plot_mean_avarage("bbox_mAP_l")
+    # plot_loss("loss_cls")""]"/Users/iotta/Master/Code/mmdetection/logs/plots/"
+    # plot_reppoints_loss()
+    # plot_reppoints_map()
+    plot_reppoints_map("/Users/iotta/Master/Code/mmdetection/logs/reppoints_augmented_training/reppoints_val.json",
+                       "/Users/iotta/Master/Code/mmdetection/logs/reppoints_augmented_training/plots/", "map")
+
 
 if __name__ == '__main__':
-    main()
+    # plot_single_log_graphs()
+    plot_mean_avarage("bbox_mAP_50", "/Users/iotta/Master/Code/mmdetection/logs/reppoints_augmented_training/reppoints_val.json",
+                      "/Users/iotta/Master/Code/mmdetection/logs/reppoints/reppoints_val.json",
+                      "RepPoints with augmentation", "RepPoints", "/Users/iotta/Master/Code/mmdetection/logs/reppoints_augmented_training/plots/")
