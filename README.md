@@ -1,4 +1,4 @@
-## This project is a fork of original [mmdetection](https://github.com/open-mmlab/mmdetection) library.
+## This project is a fork from original [mmdetection](https://github.com/open-mmlab/mmdetection) library. Code is used for evaluation of RepPoints detector on remote sensing data
 All installation and implementation details can be found in original [README](README.md)
 
 ## Configuration for training the network on Toulouse dataset
